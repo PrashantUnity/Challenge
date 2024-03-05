@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Challenge</title>
+    <base href="/Challenge/" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+            background-attachment: fixed;
+        }
+
+        .containerCentered {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 95vh;
+        }
+
+        .containerCenteredButton {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .zoom {
+            transition: transform .5s;
+            border-style: solid;
+            border-radius: 16px;
+            box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.5);
+            border-width: 5px;
+            background-image: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+        }
+
+            .zoom:hover {
+                transform: scale(1.02);
+            }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <div class="containerCentered">
+                <h1 class="containerCenteredButton" style="font-size:12em">
+                    <strong>Loading...</strong>
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+</body>
+
+</html>
