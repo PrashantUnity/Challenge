@@ -1,0 +1,68 @@
+﻿<MudListItem>
+    <MudCheckBox @bind-Value="@ChallangeTask.HealthyBreakFast"
+                 Label="Healthy Breakfast"
+                 Color="@(ChallangeTask.HealthyBreakFast ?sucessColor:unsucessColor)"
+                 Style="@("text-decoration:" + (ChallangeTask.HealthyBreakFast ? decorationStyle:string.Empty) +";"
+                                                   + "color:" + (ChallangeTask.HealthyBreakFast ? textColor:string.Empty) +";" )" />
+</MudListItem>
+<MudDivider />
+
+<MudListItem>
+    <MudCheckBox @bind-Value="@ChallangeTask.Learn"
+                 Label="Consume ~10 Minutes Of Educational Content"
+                 Color="@(ChallangeTask.Learn ?Color.Dark:unsucessColor)"
+                 Style="@("text-decoration:" + (ChallangeTask.Learn?decorationStyle:string.Empty) +";"
+                                                   + "color:" + (ChallangeTask.Learn?textColor:string.Empty) +";" )" />
+</MudListItem>
+<MudDivider />
+<MudListItem>
+    <MudCheckBox @bind-Value="@ChallangeTask.DailyTask"
+                 Label="Write Down Your Daily Tasks"
+                 Color="@(ChallangeTask.DailyTask ?sucessColor:unsucessColor)"
+                 Style="@("text-decoration:" + (ChallangeTask.DailyTask ? decorationStyle:string.Empty) +";"
+                                                   + "color:" + (ChallangeTask.DailyTask ? textColor:string.Empty) +";" )" />
+</MudListItem>
+<MudDivider />
+<MudListItem>
+    <MudCheckBox @bind-Value="@ChallangeTask.WriteCode"
+                 Label="Write At Least One Line Of Code"
+                 Color="@(ChallangeTask.WriteCode ?sucessColor:unsucessColor)"
+                 Style="@("text-decoration:" + (ChallangeTask.WriteCode?decorationStyle:string.Empty) +";"
+                                                   + "color:" + (ChallangeTask.WriteCode?textColor:string.Empty) +";" )" />
+</MudListItem>
+<MudDivider />
+<MudListItem>
+    <MudCheckBox @bind-Value="@ChallangeTask.PostOnline"
+                 Label="Post Online"
+                 Color="@(ChallangeTask.PostOnline ?sucessColor:unsucessColor)"
+                 Style="@("text-decoration:" + (ChallangeTask.PostOnline?decorationStyle:string.Empty) +";"
+                                                   + "color:" + (ChallangeTask.PostOnline?textColor:string.Empty) +";" )" />
+</MudListItem>
+<MudDivider />
+<MudListItem>
+    <MudCheckBox @bind-Value="@ChallangeTask.Exercise"
+                 Label="Exercise For 20 Minutes"
+                 Color="@(ChallangeTask.Exercise ?sucessColor:unsucessColor)"
+                 Style="@("text-decoration:" + (ChallangeTask.Exercise ? decorationStyle :string.Empty) +";"
+                                                   + "color:" + (ChallangeTask.Exercise ? textColor:string.Empty) +";" )" />
+</MudListItem>
+<MudDivider />
+<MudListItem>
+    <MudCheckBox @bind-Value="@ChallangeTask.Clean"
+                 Label="Tidy Desk Setup"
+                 Color="@(ChallangeTask.Clean ? sucessColor:unsucessColor)"
+                 Style="@("text-decoration:" + (ChallangeTask.Clean? decorationStyle :string.Empty) +";"
+                                                   + "color:" + (ChallangeTask.Clean? textColor :string.Empty) +";" )" />
+</MudListItem>
+<MudDivider />
+
+@code {
+
+    [Parameter, EditorRequired]
+    public ChallengeClass ChallangeTask { get; set; }
+
+    Color sucessColor = Color.Default;
+    Color unsucessColor = Color.Dark;
+    string decorationStyle = "line-through";
+    string textColor = "red";
+}

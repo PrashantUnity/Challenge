@@ -1,0 +1,90 @@
+﻿@page "/" 
+@using SqliteWasmHelper
+@using Microsoft.EntityFrameworkCore
+@inject ISqliteWasmDbContextFactory<Repository> Factory 
+
+<PageTitle>@days Days Challenge</PageTitle>
+ 
+@if(@busy)
+{
+    <LoadingComponent/>
+}
+else
+{
+    <MudText Typo="Typo.h2" Align="Align.Center" Class="my-12">
+        <strong> @days Day Challenge</strong>
+    </MudText>
+    <MudPaper Class="d-flex flex-wrap justify-center gap-8" Elevation="0" Style="background:transparent">
+        @foreach (var thing in challenges)
+        {
+            <MudList Class="zoom" Clickable="true" Dense=true>
+
+                <MudText Typo="Typo.h6" Class="ml-4">Day @thing.Day</MudText>
+                <ChallengeComponent ChallangeTask="thing" />
+                <MudButton 
+                    OnClick="@(()=>UpdateChallenge(thing))" 
+                    Disabled="@busy" 
+                    FullWidth=true
+                    Color="@(Color.Primary)"  
+                >Submit @(thing.Day) Day Challenge</MudButton>
+            </MudList>
+        }
+    </MudPaper> 
+    
+   
+}
+
+<BackupLink @ref="bl" DbContextType="typeof(Repository)" />
+
+@code 
+{  
+
+    public int days { get; set; } = 30; 
+    private bool busy;
+    private BackupLink bl = null!;
+    private string newThing = string.Empty;
+    private ChallengeClass[] challenges = Array.Empty<ChallengeClass>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshUiAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private async Task RefreshUiAsync()
+    {
+        using var ctx = await Factory.CreateDbContextAsync();
+        busy = true;
+        challenges = await ctx.Challenges.ToArrayAsync();
+        if(challenges.Length==0 )
+        {
+            var ls = new List<ChallengeClass>();
+            for (int i = 0; i < days; i++)
+            {
+                ls.Add(new ChallengeClass()
+                    {
+                        Day = i
+                    });
+            }
+            challenges = ls.ToArray(); 
+            ctx.Challenges.AddRange(challenges);
+            await ctx.SaveChangesAsync(); 
+        }
+        await bl.RefreshAsync();
+        busy = false;
+        StateHasChanged();
+    }
+
+    private async Task UpdateChallenge(ChallengeClass challenge)
+    {
+        if (challenge!=null)
+        {
+            using var ctx = await Factory.CreateDbContextAsync();
+            ctx.Challenges.Update(challenge);
+            busy = true;
+            await ctx.SaveChangesAsync(); 
+            busy = false;
+            await RefreshUiAsync();
+        }
+    }
+}
