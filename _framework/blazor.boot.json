@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "Challenge",
   "resources": {
-    "hash": "sha256-taoCia9IRKQTJd5/oecSNe3aPBKjAPMv+DQt/w/5Mss=",
+    "hash": "sha256-0zQP1WxDwZpDOke05RT4fuz8HPnKYEAPMpFxfFATlzE=",
     "jsModuleNative": {
       "dotnet.native.8.0.2.n1j81zw74t.js": "sha256-YacirWl4E6QQ/hqb4Hv0V+ZuVxtbWO2fVEPimk3wPAI="
     },
@@ -17,7 +17,7 @@
       "icudt_no_CJK.dat": "sha256-L7sV7NEYP37/Qr2FPCePo5cJqRgTXRwGHuwF5Q+0Nfs="
     },
     "assembly": {
-      "Challenge.wasm": "sha256-iGrKy31do04Aw2L4wkBSRCm3X8u9sU9vVsihbuSRT1M=",
+      "Challenge.wasm": "sha256-0wVZpq0KG+lAkv3vLROCWozl7B93I/I7kPjW3jzFjhc=",
       "Microsoft.AspNetCore.Components.Forms.wasm": "sha256-5Yuq/ejyURmaQ6IsukXcVteKx/uaTSTcaUvgFEKsfMo=",
       "Microsoft.AspNetCore.Components.wasm": "sha256-emhmgJggIldSnAqUcI9q1HYN2BF6GZT6hk9Bu1aYP+U=",
       "Microsoft.AspNetCore.Components.Web.wasm": "sha256-Pau2dzf2uUFLwslJRFtD3JB21ndIgsK63EC9+gO04y0=",
