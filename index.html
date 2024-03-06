@@ -38,6 +38,9 @@
             .zoom:hover {
                 transform: scale(1.02);
             }
+        .my-custom-class {
+            backdrop-filter: blur(10px);
+        }
     </style>
 </head>
 
@@ -45,9 +48,11 @@
     <div id="app">
         <div class="container">
             <div class="containerCentered">
-                <h1 class="containerCenteredButton" style="font-size:12em">
-                    <strong>Loading...</strong>
-                </h1>
+                <div class="containerCenteredButton">
+                    <img src="loading.svg" />
+                    <h1 style="text-align: center;">Loading...</h1>
+                </div>
+
             </div>
         </div>
     </div>
@@ -59,6 +64,7 @@
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+    <script src="download.js"></script>
 </body>
 
 </html>
