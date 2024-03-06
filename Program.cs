@@ -14,6 +14,6 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddMudServices();
 
 
-builder.Services.AddSqliteWasmDbContextFactory<Repository>(opts => opts.UseSqlite("Data Source=ChallengesData.sqlite3"));
+builder.Services.AddSqliteWasmDbContextFactory<Repository>(opts => opts.UseSqlite("Data Source=Challenge.sqlite3"));
 
 await builder.Build().RunAsync();

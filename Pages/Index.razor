@@ -21,9 +21,9 @@
 }
 else
 { 
-    <MudText Typo="Typo.h2" Align="Align.Center" Class="my-12">
-        <MudImage Src="watching.png" Height="160"/>
-        <strong> @days Days Challenge</strong>
+    <MudText Typo="Typo.h3" Align="Align.Center" Class="my-12">
+        <MudImage Src="watching.png" Height="160"/> <br />
+        <strong>Only @(days - dateTimes.Count + 1) ⏲️  Days To 🎯 Go  </strong>
     </MudText>
     <MudPaper Class="d-flex flex-wrap justify-center mx-4" Elevation="0" Style="background:transparent">
         <MudGrid > 
@@ -62,6 +62,8 @@ else
     private string newThing = string.Empty;
     private ChallengeClass[] challenges = Array.Empty<ChallengeClass>();
 
+    HashSet<DateTime> dateTimes = new();
+
     protected override async Task OnInitializedAsync()
     {
         await RefreshUiAsync();
@@ -87,6 +89,10 @@ else
             ctx.Challenges.AddRange(challenges);
             await ctx.SaveChangesAsync(); 
         }
+        foreach (var item in challenges)
+        {
+            dateTimes.Add(item.DateTimeData);
+        }
         await bl.RefreshAsync();
         busy = false;
         StateHasChanged();
@@ -97,6 +103,7 @@ else
         if (challenge!=null)
         {
             using var ctx = await Factory.CreateDbContextAsync();
+            challenge.DateTimeData = DateTime.Now.Date;
             ctx.Challenges.Update(challenge);
             busy = true;
             await ctx.SaveChangesAsync(); 
@@ -107,6 +114,7 @@ else
     #endregion
 
     #region Data Base Download and Backup
+
     [Inject]
     public IJSRuntime JSRuntime { get; set; }
     async Task Download()

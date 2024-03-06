@@ -16,4 +16,6 @@ public class ChallengeClass
     public bool Clean { get; set; }
 
     public int Day { get; set; }
+
+    public DateTime DateTimeData { get; set; }
 }
