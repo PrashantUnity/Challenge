@@ -22,11 +22,11 @@
 else
 { 
     <MudText Typo="Typo.h2" Align="Align.Center" Class="my-12">
-        <MudImage Src="watching.png"/>
+        <MudImage Src="watching.png" Height="160"/>
         <strong> @days Days Challenge</strong>
     </MudText>
-    <MudPaper Class="d-flex flex-wrap justify-center mx-8" Elevation="0" Style="background:transparent">
-        <MudGrid> 
+    <MudPaper Class="d-flex flex-wrap justify-center mx-4" Elevation="0" Style="background:transparent">
+        <MudGrid > 
             @foreach (var thing in challenges)
             {
                 <MudItem xs="12" sm="6" md="4" lg="3" xxl="2" >
