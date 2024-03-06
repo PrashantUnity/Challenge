@@ -22,7 +22,8 @@
 else
 { 
     <MudText Typo="Typo.h2" Align="Align.Center" Class="my-12">
-        <strong> @days Day Challenge</strong>
+        <MudImage Src="watching.png"/>
+        <strong> @days Days Challenge</strong>
     </MudText>
     <MudPaper Class="d-flex flex-wrap justify-center mx-8" Elevation="0" Style="background:transparent">
         <MudGrid> 
@@ -30,8 +31,7 @@ else
             {
                 <MudItem xs="12" sm="6" md="4" lg="3" xxl="2" >
 
-                    <MudList Class="zoom" Clickable="true" Dense="true"
-                             Style="height:400px; overflow-y:scroll;scrollbar-color: red inherit;">
+                    <MudList Class="zoom" Clickable="true" Dense="true">
 
                         <MudText Typo="Typo.h6" Class="ml-4">Day @thing.Day</MudText>
                         <ChallengeComponent ChallangeTask="thing" />
