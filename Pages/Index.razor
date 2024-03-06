@@ -1,34 +1,50 @@
-﻿@page "/" 
-@using SqliteWasmHelper
-@using Microsoft.EntityFrameworkCore
+﻿@page "/"  
+@using System.Text.Json
 @inject ISqliteWasmDbContextFactory<Repository> Factory 
-
-<PageTitle>@days Days Challenge</PageTitle>
+@inject IDialogService DialogService
  
+<PageTitle>@days Days Challenge</PageTitle>
+
+<div class="d-flex gap-0" 
+     style="position: fixed;top:0; right: 0; z-index:999; background-color:rgba(191, 202, 219,0.3); border-radius:15%; margin-right:20px;marigin-top:10px;">
+    <MudTooltip Text="Delete/Reset" Placement="Placement.Left" Color="Color.Secondary">
+    <MudIconButton Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Disabled="busy" @onclick="OpenDialog" aria-label="delete" />
+     </MudTooltip>
+     <MudTooltip Text="Download" Placement="Placement.Bottom" Color="Color.Success">
+        <MudIconButton Color="Color.Dark" Icon="@Icons.Material.Filled.Download" Disabled="busy" @onclick="Download" aria-label="download" />
+    </MudTooltip>
+</div>
+
 @if(@busy)
 {
     <LoadingComponent/>
 }
 else
-{
+{ 
     <MudText Typo="Typo.h2" Align="Align.Center" Class="my-12">
         <strong> @days Day Challenge</strong>
     </MudText>
-    <MudPaper Class="d-flex flex-wrap justify-center gap-8" Elevation="0" Style="background:transparent">
-        @foreach (var thing in challenges)
-        {
-            <MudList Class="zoom" Clickable="true" Dense=true>
+    <MudPaper Class="d-flex flex-wrap justify-center mx-8" Elevation="0" Style="background:transparent">
+        <MudGrid> 
+            @foreach (var thing in challenges)
+            {
+                <MudItem xs="12" sm="6" md="4" lg="3" xxl="2" >
 
-                <MudText Typo="Typo.h6" Class="ml-4">Day @thing.Day</MudText>
-                <ChallengeComponent ChallangeTask="thing" />
-                <MudButton 
-                    OnClick="@(()=>UpdateChallenge(thing))" 
-                    Disabled="@busy" 
-                    FullWidth=true
-                    Color="@(Color.Primary)"  
-                >Submit @(thing.Day) Day Challenge</MudButton>
-            </MudList>
-        }
+                    <MudList Class="zoom" Clickable="true" Dense="true"
+                             Style="height:400px; overflow-y:scroll;scrollbar-color: red inherit;">
+
+                        <MudText Typo="Typo.h6" Class="ml-4">Day @thing.Day</MudText>
+                        <ChallengeComponent ChallangeTask="thing" />
+                        <MudButton 
+                            OnClick="@(()=>UpdateChallenge(thing))" 
+                            Disabled="@busy" 
+                            FullWidth=true
+                            Color="@(Color.Primary)"  
+                        >Submit @(thing.Day) Day Challenge</MudButton>
+                    </MudList>
+                </MudItem>
+            }
+        </MudGrid>
     </MudPaper> 
     
    
@@ -37,8 +53,9 @@ else
 <BackupLink @ref="bl" DbContextType="typeof(Repository)" />
 
 @code 
-{  
+{
 
+    #region Database Things
     public int days { get; set; } = 30; 
     private bool busy;
     private BackupLink bl = null!;
@@ -87,4 +104,58 @@ else
             await RefreshUiAsync();
         }
     }
+    #endregion
+
+    #region Data Base Download and Backup
+    [Inject]
+    public IJSRuntime JSRuntime { get; set; }
+    async Task Download()
+    {
+        using var ctx = await Factory.CreateDbContextAsync();
+        busy = true;
+        challenges = await ctx.Challenges.ToArrayAsync();
+
+        string json = JsonSerializer.Serialize(challenges);
+
+        // Invoke JavaScript function to download the JSON file
+        await JSRuntime.InvokeVoidAsync("downloadFile", "data.json", json, "application/json");
+
+        await bl.RefreshAsync();
+        busy = false;
+        StateHasChanged();
+    }
+    async Task OpenDialog()
+    {
+        var options = new DialogOptions { ClassBackground = "my-custom-class" };
+        options.NoHeader = true;
+        var dialog = await DialogService.ShowAsync<SettingsComponent>("Reset", options);
+        var result = await dialog.Result;
+        if(!result.Canceled)
+        {
+            await DeleBatabase();
+        }
+    }
+
+    private async Task DeleBatabase()
+    {
+        using var ctx = await Factory.CreateDbContextAsync();
+        busy = true; 
+        var task = await ctx.Challenges.ExecuteDeleteAsync();
+
+        var ls = new List<ChallengeClass>();
+        for (int i = 0; i < days; i++)
+        {
+            ls.Add(new ChallengeClass()
+                {
+                    Day = i
+                });
+        }
+        challenges = ls.ToArray();
+        ctx.Challenges.AddRange(challenges);
+        await ctx.SaveChangesAsync();
+        await bl.RefreshAsync();
+        busy = false;
+        StateHasChanged();
+    }
+    #endregion
 }

@@ -1,0 +1,25 @@
+﻿<MudDialog Style="background-color:aliceblue"> 
+    <DialogContent>
+        <MudText Align="Align.Center" Style="margin-top:10px">
+            <b>Reset Data</b>
+        </MudText>
+    </DialogContent>
+    <DialogActions > 
+        <MudIconButton OnClick="Cancel" 
+            Icon="@Icons.Material.Filled.Cancel" 
+            Color="Color.Primary" 
+            Size="Size.Large" />
+        <MudIconButton 
+            Color="Color.Error" 
+            Icon="@Icons.Material.Filled.Check" 
+            OnClick="Submit" 
+            Size="Size.Large" /> 
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+}
